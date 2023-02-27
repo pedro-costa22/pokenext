@@ -17,7 +17,8 @@ export default function Home() {
   });
   
   async function fetchAllPokemons() {
-    const paramUrl = response.next === '' ? 'pokemon' : response.next; // é necessario ajustar o param a ser enviado, atualmente está passando o link inteiro
+    const paramUrl = response.next === '' ? 'pokemon' : response.next.substring(26); 
+
     const data = await usePoke.getPokemons(paramUrl);
     setResponse(prev => ({ ...prev, ...data }));
   }
@@ -29,9 +30,10 @@ export default function Home() {
 
     const resolvedPromises = await Promise.all(promises);
     const newPokemons = resolvedPromises.filter((pokemon) => {
-      if(!allPokemons.includes(pokemon)){
+      const findPokemon = allPokemons.find(item => item.name === pokemon.id);
+      if(!findPokemon){
         return pokemon
-      };
+      }
     });
 
     setAllPokemons(prev => ([ ...prev, ...newPokemons]));
