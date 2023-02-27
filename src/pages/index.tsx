@@ -17,8 +17,24 @@ export default function Home() {
   });
   
   async function fetchAllPokemons() {
-    const data = await usePoke.getPokemons();
+    const paramUrl = response.next === '' ? 'pokemon' : response.next; // é necessario ajustar o param a ser enviado, atualmente está passando o link inteiro
+    const data = await usePoke.getPokemons(paramUrl);
     setResponse(prev => ({ ...prev, ...data }));
+  }
+
+  async function handleResults() {
+    const promises = response.results.map(async (pokemon: any) => {
+      return await usePoke.getPokemon(pokemon.url);
+    });
+
+    const resolvedPromises = await Promise.all(promises);
+    const newPokemons = resolvedPromises.filter((pokemon) => {
+      if(!allPokemons.includes(pokemon)){
+        return pokemon
+      };
+    });
+
+    setAllPokemons(prev => ([ ...prev, ...newPokemons]));
   }
 
   const renderPokemons = () => {
@@ -34,13 +50,16 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    setAllPokemons(prev => [...prev, ...response.results]);
+    handleResults();
   }, [response]);
- 
 
+ 
   return (
       <div>
         {renderPokemons()}
+        <button onClick={fetchAllPokemons}>
+          ver mais
+        </button>
       </div>
   )
 }

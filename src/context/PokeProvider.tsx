@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { fetchAll } from '../services/api';
+import { fetchAll, fetchPokemon } from '../services/api';
 
 //Types
 import { IContext, IPokeProvider, IResponseObj } from "../types/Context";
@@ -9,13 +9,13 @@ export const PokeContext = createContext<IContext>({} as IContext);
 
 export function PokeProvider({children}: IPokeProvider) {
 
-    async function getPokemons(){
+    async function getPokemons(param: string){
         const { 
             count, 
             next, 
             previous,
             results 
-        }: IResponseObj = await fetchAll();
+        }: IResponseObj = await fetchAll(param);
 
         return {
             count, 
@@ -25,8 +25,9 @@ export function PokeProvider({children}: IPokeProvider) {
         };
     };
 
-    async function getPokemon(){
-        console.log('função chamada para acessar um pokemon em especifico');
+    async function getPokemon(url: string){
+        const data = await fetchPokemon(url);
+        return {...data};
     };
 
 

@@ -6,8 +6,8 @@ export interface IResponseObj {
 }
 
 export interface IContext {
-    getPokemons: () => {};
-    getPokemon: () => any;
+    getPokemons: (param: string) => {};
+    getPokemon: (url: string) => any;
 
 }
 
