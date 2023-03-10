@@ -13,6 +13,6 @@ export const Main = styled.main`
     margin-top: -8rem;
     padding: 48px 0px;
 
-    background-color: #ccc;
+    background-color: #fff;
 
 `;

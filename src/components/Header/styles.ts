@@ -27,9 +27,10 @@ export const Container = styled.div`
 
 export const GitIcon = styled.span`
     display: flex;
+    .iconGit {
+        font-size: 48px;
+        color: #fff;
+        cursor: pointer;
+    }
 
-`
-
-export const BtnTheme = styled.div`
-    display: flex;
 `
